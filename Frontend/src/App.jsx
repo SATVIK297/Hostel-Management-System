@@ -9,7 +9,7 @@ function App() {
   return (
     <>
       <div>
-        Pranjay Seksaria
+        Pranjay Seksaria satvik kakkar
         </div>
     </>
   )
