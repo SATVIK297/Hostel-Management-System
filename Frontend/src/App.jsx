@@ -9,7 +9,7 @@ function App() {
   return (
     <>
       <div>
-        Pranjay
+        Pranjay Seksaria
         </div>
     </>
   )
