@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import { Link } from 'react-router-dom';
 import loginImage from '../assets/hostal.png'; // Adjust the path if needed
 import logoImage from '../assets/VIT LOGO.png'; // Adjust the path if needed
@@ -63,6 +64,7 @@ const Login = ({ onLogin }) => {
             </div>
           </form>
         </div>
+
       </div>
     </div>
   );
