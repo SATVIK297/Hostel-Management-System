@@ -1,16 +1,40 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Signup from './pages/Signup';
+
+import { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Login from './pages/Login';
-import Home from './pages/Home';
+import Header from './components/Header';
+import Dashboard from './pages/Dashboard';
+import RoomCleaning from './pages/RoomCleaning';
+import Roomclean_status from './pages/Roomclean_status';
+import Roomclean_main from './pages/Roomclean_main';
+import Profile from './pages/Profile';
+import Register from './pages/register';
 
 function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  const handleLogin = () => {
+    setIsLoggedIn(true);
+  };
+
   return (
     <Router>
+      {isLoggedIn && <Header />}
       <Routes>
-        <Route path="/signup" element={<Signup />} />
-        <Route path="/" element={<Login />} />
-        <Route path="/home" element={<Home />} />
+        {!isLoggedIn ? (
+          <>
+                    <Route path="/register" element={<Register/>} />
+                    <Route path="/" element={<Login onLogin={handleLogin} />} />
+
+          </>
+        ) : (
+          <>
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/roomcleaning" element={<Roomclean_main />} />
+            <Route path="/profile" element={<Profile />} />
+          </>
+        )}
+
       </Routes>
     </Router>
   );
