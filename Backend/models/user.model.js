@@ -20,7 +20,7 @@ const userSchema = new Schema(
     name: { type: String },
     rollNumber: { type: String },
     roomNumber: { type: String },
-    hostelBlock: { type: String },
+    
   },
   { timestamps: true }
 );
