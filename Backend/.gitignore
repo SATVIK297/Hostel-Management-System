@@ -1,0 +1,23 @@
+# Dependency directories
+node_modules/
+vendor/
+
+# Environment variables
+.env
+
+# Build directories
+dist/
+build/
+
+# Logs
+logs/
+*.log
+
+# Database files
+*.sqlite
+*.sqlite3
+*.db
+*.sql
+
+# Coverage directory used by tools like istanbul
+coverage/
