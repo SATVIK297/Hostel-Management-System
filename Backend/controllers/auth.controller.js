@@ -34,8 +34,8 @@ export const signup = async (req, res, next) => {
     secure:true,
     port: 465,
     auth: {
-      user: 'biggamer1923@gmail.com',
-      pass: 'paysnaxegkbxdjhb'
+      user: process.env.USERNAME,
+      pass: process.env.PASSWORD
     }
 });
 
