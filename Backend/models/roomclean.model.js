@@ -6,10 +6,10 @@ const roomCleanSchema = new Schema(
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true, 
+      //required: true, 
     },
     rollnum:{
-        type: String,
+      type: String,
       required: true,
     },
     description: {
@@ -25,7 +25,7 @@ const roomCleanSchema = new Schema(
       required: true, 
     },
     date: {
-      type: Date,
+      type: String,
       required: true, 
     },
     time: {

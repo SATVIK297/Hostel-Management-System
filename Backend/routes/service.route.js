@@ -1,5 +1,5 @@
 import express from 'express'
-import { maintenanceRequest, roomcleanrequest } from '../controllers/services.controller.js';
+import { maintenanceRequest, maintenanceStatus, roomcleanrequest, roomCleanStatus } from '../controllers/services.controller.js';
 
 
 const router  = express.Router();
@@ -8,5 +8,9 @@ const router  = express.Router();
 
 router.post("/roomclean" , roomcleanrequest)
 router.post('/maintenance', maintenanceRequest);
+router.get('/roomcleanstatus/:id', roomCleanStatus);
+router.get('/maintenancestatus/:id', maintenanceStatus);
+
+
 
 export default router;
