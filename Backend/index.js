@@ -4,6 +4,9 @@ import  dotenv  from 'dotenv';
 import cookieParser from 'cookie-parser';
 import authRoutes from './routes/auth.route.js'
 import cors from 'cors';
+import bodyParser from 'body-parser';
+
+// Use the json function in your code
 
 dotenv.config();
 
@@ -18,6 +21,7 @@ mongoose.connect(process.env.MONGODB).then(
 
 
 const app = express();
+app.use(bodyParser.json());
 app.use(cors());
 app.use(express.json());
 app.use(cookieParser())

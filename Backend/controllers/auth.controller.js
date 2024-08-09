@@ -4,13 +4,15 @@ import nodemailer from 'nodemailer'; // Add this line
 
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
+// import { json } from "body-parser";
 
 export const signup = async (req, res, next) => {
-  const { email, password } = req.body;
+  const { email, password,registrationNumber} = req.body;
   console.log('Email:', email);
   console.log('Password:', password);
+  console.log('reg:', registrationNumber);
 
-  if (!email || !password || email === "" || password === "") {
+  if (!email || !password  || !registrationNumber) {
     return next(errorHandler(400, "All fields are required"));
   }
 
@@ -24,7 +26,7 @@ export const signup = async (req, res, next) => {
   const randomOtp = Math.floor(100000 + Math.random() * 900000).toString();
   const hashedPassword = bcryptjs.hashSync(password, 10);
 
-  const newUser = new User({ email, password:hashedPassword, otp: randomOtp });
+  const newUser = new User({ email, password:hashedPassword, otp: randomOtp ,registrationNumber });
   await newUser.save();
 
   const transporter = nodemailer.createTransport({
@@ -116,36 +118,48 @@ export const verifyOtp = async (req, res, next) => {
 };
 
 
-
 export const signin = async (req, res, next) => {
   const { email, password } = req.body;
 
-  if (!email || !password || email === '' || password === '') {
-    next(errorHandler(400, 'All fields are required'));
+  if (!email || !password) {
+    return next(errorHandler(400, 'All fields are required'));
   }
 
   try {
+    // Check if the user exists
     const validUser = await User.findOne({ email });
     if (!validUser) {
       return next(errorHandler(404, 'User not found'));
     }
+
+    // Check if the password is correct
     const validPassword = bcryptjs.compareSync(password, validUser.password);
     if (!validPassword) {
       return next(errorHandler(400, 'Invalid password'));
     }
+
+    // Generate JWT token if authentication is successful
     const token = jwt.sign(
       { id: validUser._id, isAdmin: validUser.isAdmin },
-      process.env.JWT_SECRET
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' } // Optional: Set token expiry time
     );
 
     const { password: pass, ...rest } = validUser._doc;
 
+    // Respond with the user data and set the cookie
     res
       .status(200)
       .cookie('access_token', token, {
         httpOnly: true,
+        
       })
-      .json(rest);
+      .json({
+        status: 200,
+        message: 'Successfully signed in',
+        user: rest,
+        token,
+      });
   } catch (error) {
     next(error);
   }

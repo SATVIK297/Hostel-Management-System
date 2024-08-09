@@ -18,8 +18,9 @@ const userSchema = new Schema(
     isVerified: { type: Boolean, default: false },
     isAdmin: { type: Boolean, default: false }, // false for students, true for wardens
     name: { type: String },
-    rollNumber: { type: String },
-    roomNumber: { type: String },
+    block: { type: String },
+    roomNumber: { type: Number },
+    registrationNumber: { type: String },
     
   },
   { timestamps: true }
