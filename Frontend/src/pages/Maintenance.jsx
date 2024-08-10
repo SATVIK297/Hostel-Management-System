@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const RoomCleaning = () => {
+const Maintenance = () => {
   const [formData, setFormData] = useState({
     name: '',
     rollNo: '',
@@ -9,6 +9,7 @@ const RoomCleaning = () => {
     roomNo: '',
     date: '',
     time: '',
+    maintenance_type: '', // Initialize with an empty string or default value
     comments: '',
   });
 
@@ -18,29 +19,30 @@ const RoomCleaning = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
+    console.log(formData);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       // Send a POST request to your backend API
-      const response = await axios.post('http://localhost:5000/api/v1/service/roomclean', {
+      const response = await axios.post('http://localhost:5000/api/v1/service/maintenance', {
         rollnum: formData.rollNo,
         room: formData.roomNo,
         block: formData.block,
         description: formData.comments,
         date: formData.date,
         time: formData.time,
+        maintenanceType: formData.maintenance_type,
         status: 'pending', // Optionally set the status here
       });
-      console.log(response.data);
+      console.log("efrghjvgfxdbgn vgchfghdfx vcbnm", response.data);
 
       // Handle success response
       setMessage('Room cleaning request submitted successfully!');
       setError('');
     } catch (err) {
       // Handle error response
-      
       setError('Failed to submit room cleaning request. Please try again.');
       setMessage('');
       console.error('Error submitting room cleaning request:', err);
@@ -50,7 +52,7 @@ const RoomCleaning = () => {
   return (
     <div className="min-h-screen px-1 py-3 md:p-6">
       <div className="container mx-auto">
-        <h1 className="text-3xl font-bold mb-6 text-center">Room Cleaning Request</h1>
+        <h1 className="text-3xl font-bold mb-6 text-center">Maintenance Request</h1>
         <form
           className="bg-white p-6 rounded-lg shadow-xl max-w-lg mx-auto"
           onSubmit={handleSubmit}
@@ -142,6 +144,25 @@ const RoomCleaning = () => {
             />
           </div>
           <div className="mb-4">
+            <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="maintenance_type">
+              Maintenance Type
+            </label>
+            <select
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+              id="maintenance_type"
+              name="maintenance_type"
+              value={formData.maintenance_type}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Select Maintenance Type</option>
+              <option value="AC">AC</option>
+              <option value="Furniture">Furniture</option>
+              <option value="Electrical">Electrical</option>
+              <option value="Others">Others</option>
+            </select>
+          </div>
+          <div className="mb-4">
             <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="comments">
               Extra Comments
             </label>
@@ -169,4 +190,4 @@ const RoomCleaning = () => {
   );
 };
 
-export default RoomCleaning;
+export default Maintenance;
