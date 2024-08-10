@@ -4,61 +4,80 @@ import nodemailer from 'nodemailer'; // Add this line
 
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
-// import { json } from "body-parser";
 
 export const signup = async (req, res, next) => {
-  const { email, password,registrationNumber} = req.body;
+  const { email, password, registrationNumber, name, block, roomNumber } = req.body;
+  
   console.log('Email:', email);
   console.log('Password:', password);
-  console.log('reg:', registrationNumber);
+  console.log('Registration Number:', registrationNumber);
+  console.log('Name:', name);
+  console.log('Block:', block);
+  console.log('Room Number:', roomNumber);
 
-  if (!email || !password  || !registrationNumber) {
+  if (!email || !password || !registrationNumber || !name || !block || !roomNumber) {
     return next(errorHandler(400, "All fields are required"));
   }
 
   // Check if user already exists
-  const existedUser = await User.findOne({ email });
-  if (existedUser) {
-    return next(errorHandler(400, "User already exists"));
-  }
-
-  // Generate OTP
-  const randomOtp = Math.floor(100000 + Math.random() * 900000).toString();
-  const hashedPassword = bcryptjs.hashSync(password, 10);
-
-  const newUser = new User({ email, password:hashedPassword, otp: randomOtp ,registrationNumber });
-  await newUser.save();
-
-  const transporter = nodemailer.createTransport({
-    service: 'gmail',
-    secure:true,
-    port: 465,
-    auth: {
-      user: 'biggamer1923@gmail.com',
-      pass: 'paysnaxegkbxdjhb'
-    }
-});
-
-  const mailData = {
-    from: 'hostel@gmail.com',
-    to: email,
-    subject: "Hostel Management (Verify your identity)",
-    text: `Hello, Your 6 digit OTP to continue on HMS is: ${randomOtp}`,
-  };
-
   try {
-    await transporter.sendMail(mailData);
-    console.log("OTP sent successfully");
-    res.status(200).json({
-      status: 200,
-      message: "Check your mail account for OTP.",
+    const existedUser = await User.findOne({ email });
+    if (existedUser) {
+      return next(errorHandler(400, "User already exists"));
+    }
+
+    // Generate OTP
+    const randomOtp = Math.floor(100000 + Math.random() * 900000).toString();
+    const hashedPassword = bcryptjs.hashSync(password, 10);
+
+    // Create new user
+    const newUser = new User({
+      email,
+      password: hashedPassword,
+      otp: randomOtp,
+      registrationNumber,
+      name,
+      block,
+      roomNumber
     });
+    await newUser.save();
+
+    // Setup nodemailer transporter
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      secure: true,
+      port: 465,
+      auth: {
+        user:'biggamer1923@gmail.com',
+        pass:'paysnaxegkbxdjhb'
+      }
+    });
+
+    // Email configuration
+    const mailData = {
+      from: 'hostel@gmail.com',
+      to: email,
+      subject: "Hostel Management (Verify your identity)",
+      text: `Hello, Your 6 digit OTP to continue on HMS is: ${randomOtp}`,
+    };
+
+    // Send OTP email
+    try {
+      await transporter.sendMail(mailData);
+      console.log("OTP sent successfully");
+      res.status(200).json({
+        status: 200,
+        message: "Check your mail account for OTP.",
+      });
+    } catch (emailError) {
+      console.log(emailError);
+      next(errorHandler(500, "Failed to send OTP"));
+    }
   } catch (error) {
-    console.log(error);
-    next(errorHandler(500, "Failed to send OTP"));
+    next(errorHandler(500, "Internal server error"));
   }
- 
 };
+
 
 export const verifyOtp = async (req, res, next) => {
   const { email, otp, password } = req.body;
@@ -102,7 +121,6 @@ export const verifyOtp = async (req, res, next) => {
       status: 200,
       message: "Successfully registered and verified",
       user: rest,
-      token
     });
   } catch (error) {
     console.error("Error during OTP verification:", error);
