@@ -6,7 +6,7 @@ const maintenanceSchema = new Schema(
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User", 
-      required: true, 
+      //required: true, 
     },
     rollnum:{
         type: String,
@@ -25,7 +25,7 @@ const maintenanceSchema = new Schema(
       required: true, 
     },
     date: {
-      type: Date,
+      type: String,
       required: true,
     },
     time: {

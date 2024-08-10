@@ -5,6 +5,7 @@ import { errorHandler } from "../utils/error.js"; // Assume you have a custom er
 
 export const roomcleanrequest = async (req, res, next) => {
   try {
+    console.log("enteret try")
     const { rollnum, room, block, description, date, time, status } = req.body;
     if (!room || !block || !rollnum || !date || !time) {
       return next(errorHandler(400, "All fields are required"));
@@ -43,7 +44,24 @@ export const roomcleanrequest = async (req, res, next) => {
   }
 };
 
+export const roomCleanStatus = async (req, res, next) => {
+  try {
+      const id = req.params.id; // Corrected to 'params' to access the parameter
+      const user = await User.findOne({_id: id }); // Find the user by ID
 
+      if (!user) {
+          return res.status(404).json({ message: "User not found" });
+      }
+      console.log(user)
+
+      const services = await RoomClean.find({ userId: id }); // Find all room cleaning services for the user
+      console.log(services)
+
+      return res.status(200).json(services); // Return the services
+  } catch (error) {
+      return res.status(500).json({ message: error.message }); // Handle errors
+  }
+};
 
 
 
@@ -57,7 +75,7 @@ export const maintenanceRequest = async (req, res, next) => {
       }
   
       // Find the user by roll number (assuming roll number is unique)
-      const existedUser = await User.findOne({ rollnum });
+      const existedUser = await User.findOne({ registrationNumber: rollnum });
   
       if (!existedUser) {
         return next(errorHandler(404, "User not found"));
@@ -66,6 +84,7 @@ export const maintenanceRequest = async (req, res, next) => {
       // Create a new Maintenance document
       const maintenance = new Maintenance({
         userId: existedUser._id, // Reference to the user
+        rollnum,
         description,
         room,
         block,
@@ -85,6 +104,28 @@ export const maintenanceRequest = async (req, res, next) => {
       });
     } catch (error) {
       // Handle any errors
+      console.log(error);
       return next(errorHandler(500, "Something went wrong. Please try again."));
+
     }
   };
+
+  export const maintenanceStatus = async (req, res, next) => {
+    try {
+        const id = req.params.id; // Corrected to 'params' to access the parameter
+        const user = await User.findOne({_id: id }); // Find the user by ID
+  
+        if (!user) {
+            return res.status(404).json({ message: "User not found" });
+        }
+        console.log(user)
+  
+        const services = await Maintenance.find({ userId: id }); // Find all room cleaning services for the user
+        console.log(services)
+  
+        return res.status(200).json(services); // Return the services
+    } catch (error) {
+        return res.status(500).json({ message: error.message }); // Handle errors
+    }
+  };
+  
