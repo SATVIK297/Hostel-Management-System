@@ -1,25 +1,20 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { useSelector } from 'react-redux';
 
-
-const Roomclean_status = () => {
+const Maintenance_status = () => {
   const [requests, setRequests] = useState([]);
   const [error, setError] = useState('');
-  const currentUser = useSelector((state) => state.user.currentUser);
-  console.log(currentUser);
 
   useEffect(() => {
     const fetchRequests = async () => {
-      const userId = currentUser._id; // Fetch the user ID from local storage
-      console.log(userId);                                              
+      const userId = localStorage.getItem('userId'); // Fetch the user ID from local storage
 
       if (!userId) {
         setError('User ID is not available. Please log in.');
         return;
       }
       try {
-        const response = await axios.get(`http://localhost:5000/api/v1/service/roomcleanstatus/${userId}`, {
+        const response = await axios.get(`http://localhost:5000/api/v1/service/maintenancestatus/${userId}`, {
           withCredentials: true, // Ensure the token is sent with the request
         });
         console.log(response);
@@ -46,6 +41,7 @@ const Roomclean_status = () => {
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">Block</th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider hidden md:table-cell">Time</th>
+              <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
               <th className="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
             </tr>
           </thead>
@@ -56,6 +52,7 @@ const Roomclean_status = () => {
                 <td className="px-4 py-2 whitespace-nowrap hidden md:table-cell">{request.block}</td>
                 <td className="px-4 py-2 whitespace-nowrap ">{new Date(request.date).toLocaleDateString()}</td>
                 <td className="px-4 py-2 whitespace-nowrap hidden md:table-cell">{request.time}</td>
+                <td className="px-4 py-2 whitespace-nowrap">{request.maintenanceType}</td>
                 <td className={`px-4 py-2 whitespace-nowrap font-semibold ${
                     request.status === 'Pending' ? 'text-red-500' : 'text-green-500'
                   }`}>
@@ -70,4 +67,4 @@ const Roomclean_status = () => {
   );
 };
 
-export default Roomclean_status;
+export default Maintenance_status;

@@ -21,11 +21,15 @@ mongoose.connect(process.env.MONGODB).then(
   console.log(err,"failed to connect");
 })
 
+const corsOptions = {
+  origin: true,      // Allows all origins
+  credentials: true, // Allow credentials (cookies, authorization headers, etc.)
+};
 
 const app = express();
 app.use(express.urlencoded({extended: true}));
 app.use(bodyParser.json());
-app.use(cors());
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(cookieParser())
 

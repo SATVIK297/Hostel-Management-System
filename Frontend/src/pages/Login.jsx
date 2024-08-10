@@ -1,38 +1,48 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice'; // Adjust the import path accordingly
 import loginImage from '../assets/hostal.png'; // Adjust the path if needed
 import logoImage from '../assets/VIT LOGO.png'; // Adjust the path if needed
+import { Link } from 'react-router-dom';
 
-const Login = ({ onLogin }) => {
+const Login = ({onLogin}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    dispatch(signInStart());
+
     try {
       // Send a POST request to the login endpoint
       const response = await axios.post('http://localhost:5000/api/v1/auth/signin', {
         email: username, // assuming username is used as email
-        password
+        password,
       });
 
       // If login is successful
       if (response.status === 200) {
-        // Call the onLogin function if provided
-        if (onLogin) onLogin();
-        
+        const userId = response.data._id;
+        if(onLogin) onLogin();
+
         // Optionally store the token in localStorage or cookies
         localStorage.setItem('token', response.data.token);
+        localStorage.setItem('userId', userId);
+
+        dispatch(signInSuccess(response.data));
 
         // Redirect to the home page or dashboard
         navigate('/');
       }
     } catch (err) {
       // Handle error
+      dispatch(signInFailure(err.response?.data?.message || 'Failed to login'));
       setError(err.response?.data?.message || 'Failed to login');
     }
   };
