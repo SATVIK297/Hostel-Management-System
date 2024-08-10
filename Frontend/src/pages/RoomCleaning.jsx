@@ -1,7 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+import { useSelector } from 'react-redux';
+
 const RoomCleaning = () => {
+
+  const currentUser = useSelector((state) => state.user.currentUser);  
   const [formData, setFormData] = useState({
     name: '',
     rollNo: '',
@@ -25,9 +29,9 @@ const RoomCleaning = () => {
     try {
       // Send a POST request to your backend API
       const response = await axios.post('http://localhost:5000/api/v1/service/roomclean', {
-        rollnum: formData.rollNo,
-        room: formData.roomNo,
-        block: formData.block,
+        rollnum: currentUser.registrationNumber,
+        room: currentUser.roomNumber,
+        block: currentUser.block,
         description: formData.comments,
         date: formData.date,
         time: formData.time,
@@ -64,9 +68,10 @@ const RoomCleaning = () => {
               id="name"
               type="text"
               name="name"
-              value={formData.name}
+              value={currentUser.name}
               onChange={handleChange}
               required
+              disabled
             />
           </div>
           <div className="mb-4">
@@ -78,9 +83,10 @@ const RoomCleaning = () => {
               id="rollNo"
               type="text"
               name="rollNo"
-              value={formData.rollNo}
+              value={currentUser.registrationNumber}
               onChange={handleChange}
               required
+              disabled
             />
           </div>
           <div className="flex">
@@ -93,9 +99,10 @@ const RoomCleaning = () => {
                 id="block"
                 type="text"
                 name="block"
-                value={formData.block}
+                value={currentUser.block}
                 onChange={handleChange}
                 required
+                disabled
               />
             </div>
             <div className="mb-4">
@@ -107,9 +114,10 @@ const RoomCleaning = () => {
                 id="roomNo"
                 type="text"
                 name="roomNo"
-                value={formData.roomNo}
+                value={currentUser.roomNumber}
                 onChange={handleChange}
                 required
+                disabled
               />
             </div>
           </div>

@@ -38,7 +38,7 @@ const Login = ({onLogin}) => {
         dispatch(signInSuccess(response.data));
 
         // Redirect to the home page or dashboard
-        navigate('/');
+        navigate('/dashboard');
       }
     } catch (err) {
       // Handle error

@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
+import { useSelector } from 'react-redux';
+
 const Maintenance = () => {
+  const currentUser = useSelector((state)=>state.user.currentUser)
   const [formData, setFormData] = useState({
     name: '',
     rollNo: '',
@@ -27,16 +30,15 @@ const Maintenance = () => {
     try {
       // Send a POST request to your backend API
       const response = await axios.post('http://localhost:5000/api/v1/service/maintenance', {
-        rollnum: formData.rollNo,
-        room: formData.roomNo,
-        block: formData.block,
+        rollnum: currentUser.registrationNumber,
+        room: currentUser.roomNumber,
+        block: currentUser.block,
         description: formData.comments,
         date: formData.date,
         time: formData.time,
         maintenanceType: formData.maintenance_type,
         status: 'pending', // Optionally set the status here
       });
-      console.log("efrghjvgfxdbgn vgchfghdfx vcbnm", response.data);
 
       // Handle success response
       setMessage('Room cleaning request submitted successfully!');
@@ -66,9 +68,10 @@ const Maintenance = () => {
               id="name"
               type="text"
               name="name"
-              value={formData.name}
+              value={currentUser.name}
               onChange={handleChange}
               required
+              disabled
             />
           </div>
           <div className="mb-4">
@@ -80,9 +83,10 @@ const Maintenance = () => {
               id="rollNo"
               type="text"
               name="rollNo"
-              value={formData.rollNo}
+              value={currentUser.registrationNumber}
               onChange={handleChange}
               required
+              disabled
             />
           </div>
           <div className="flex">
@@ -95,9 +99,10 @@ const Maintenance = () => {
                 id="block"
                 type="text"
                 name="block"
-                value={formData.block}
+                value={currentUser.block}
                 onChange={handleChange}
                 required
+                disabled
               />
             </div>
             <div className="mb-4">
@@ -109,9 +114,10 @@ const Maintenance = () => {
                 id="roomNo"
                 type="text"
                 name="roomNo"
-                value={formData.roomNo}
+                value={currentUser.roomNumber}
                 onChange={handleChange}
                 required
+                disabled
               />
             </div>
           </div>
