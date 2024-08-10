@@ -17,10 +17,10 @@ const userSchema = new Schema(
     
     isVerified: { type: Boolean, default: false },
     isAdmin: { type: Boolean, default: false }, // false for students, true for wardens
-    name: { type: String },
-    block: { type: String },
-    roomNumber: { type: Number },
-    registrationNumber: { type: String },
+    name: { type: String ,required: true,},
+    block: { type: String ,required: true, },
+    roomNumber: { type: Number  ,required: true,},
+    registrationNumber: { type: String ,required: true,},
     
   },
   { timestamps: true }
