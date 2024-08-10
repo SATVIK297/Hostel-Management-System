@@ -1,48 +1,59 @@
-import React from 'react';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 
 const Roomclean_status = () => {
-  const dummyData = [
-    { name: 'Alice', block: 'A', room: '101', date: '2024-08-01', status: 'Pending' },
-    { name: 'Bob', block: 'B', room: '202', date: '2024-08-02', status: 'Done' },
-    { name: 'Charlie', block: 'C', room: '303', date: '2024-08-03', status: 'Pending' },
-    { name: 'David', block: 'D', room: '404', date: '2024-08-04', status: 'Done' },
-  ];
+  const [requests, setRequests] = useState([]);
+  const [error, setError] = useState('');
+  const [totalRequests, setTotalRequests] = useState(0);
+  const [lastMonthRequests, setLastMonthRequests] = useState(0);
+
+  useEffect(() => {
+    const fetchRequests = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/v1/admin/roomclean', {
+          withCredentials: true, // Ensure the token is sent with the request
+        });
+        
+        setRequests(response.data.requests);
+        setTotalRequests(response.data.totalRequests);
+        setLastMonthRequests(response.data.lastMonthRequests);
+      } catch (err) {
+        setError('Failed to fetch room cleaning requests. Please try again.');
+        console.error(err);
+      }
+    };
+
+    fetchRequests();
+  }, []);
 
   return (
-    <div className="min-h-screen  px-1 py-3 md:p-8">
-      <div className="container mx-auto">
-        <h1 className="text-3xl font-bold mb-8 text-center">Room Cleaning Status</h1>
-        <div className="bg-white p-4  rounded-lg shadow-lg">
-          <table className="min-w-full table-auto">
-            <thead>
-              <tr>
-                <th className="px-4 py-2">Block</th>
-                <th className="px-4 py-2">Room</th>
-                <th className="px-4 py-2">Date</th>
-                <th className="px-4 py-2">Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              {dummyData.map((item, index) => (
-                <tr key={index} className="border-t">
-                  <td className="px-4 py-2 text-center">{item.block}</td>
-                  <td className="px-4 py-2 text-center">{item.room}</td>
-                  <td className="px-4 py-2 text-center">{item.date}</td>
-                  <td className="px-4 py-2 text-center">
-                    <span
-                      className={`inline-block px-2 py-1 text-sm font-semibold rounded-full ${
-                        item.status === 'Done' ? 'bg-green-200 text-green-800' : 'bg-yellow-200 text-yellow-800'
-                      }`}
-                    >
-                      {item.status}
-                    </span>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
+    <div>
+      <h1>Room Cleaning Requests</h1>
+      {error && <p className="text-red-500">{error}</p>}
+      <p>Total Requests: {totalRequests}</p>
+      <p>Requests from Last Month: {lastMonthRequests}</p>
+      <table className="min-w-full divide-y divide-gray-200">
+        <thead>
+          <tr>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Room</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Block</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Date</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Time</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+          </tr>
+        </thead>
+        <tbody className="bg-white divide-y divide-gray-200">
+          {requests.map((request) => (
+            <tr key={request.id}>
+              <td className="px-6 py-4 whitespace-nowrap">{request.room}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{request.block}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{new Date(request.date).toLocaleDateString()}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{request.time}</td>
+              <td className="px-6 py-4 whitespace-nowrap">{request.status}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 };

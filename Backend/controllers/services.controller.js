@@ -10,9 +10,8 @@ export const roomcleanrequest = async (req, res, next) => {
       return next(errorHandler(400, "All fields are required"));
     }
 
-    // Find the user by roll number (assuming roll number is unique)
-    const existedUser = await User.findOne({ email });
-
+    // Find the user by roll number
+    const existedUser = await User.findOne({ registrationNumber: rollnum });
     if (!existedUser) {
       return next(errorHandler(404, "User not found"));
     }
@@ -20,6 +19,7 @@ export const roomcleanrequest = async (req, res, next) => {
     // Create a new RoomClean document
     const roomClean = new RoomClean({
       userId: existedUser._id, // Reference to the user
+      rollnum, // Make sure this field is included
       description,
       room,
       block,
@@ -37,21 +37,13 @@ export const roomcleanrequest = async (req, res, next) => {
       data: roomClean,
     });
   } catch (error) {
-    // Handle any errors
+    // Log detailed error information
+    console.error("Error saving room clean request:", error);
     return next(errorHandler(500, "Something went wrong. Please try again."));
   }
 };
 
-// export const roomcleanstatus = async(req,res,next) => {
 
-//     try{
-//         const id = req.param.id;
-//         const user = User.findOne({id});
-//         const services = RoomClean.findOne({user:id});
-
-
-//     }
-// }
 
 
 

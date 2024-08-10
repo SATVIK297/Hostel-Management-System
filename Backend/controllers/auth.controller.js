@@ -94,13 +94,6 @@ export const verifyOtp = async (req, res, next) => {
 
     console.log("User verified and saved successfully");
 
-    // Generate a JWT token
-    const token = jwt.sign(
-      { id: user._id, isAdmin: user.isAdmin },
-      process.env.JWT_SECRET,
-      { expiresIn: '1h' } // Token expiry time
-    );
-
     // Exclude sensitive fields (like password) from the response
     const { password: pass, ...rest } = user._doc;
 
@@ -121,10 +114,14 @@ export const verifyOtp = async (req, res, next) => {
 export const signin = async (req, res, next) => {
   const { email, password } = req.body;
 
-  if (!email || !password) {
-    return next(errorHandler(400, 'All fields are required'));
+  if (
+    !password ||
+    !email ||
+    password === "" ||
+    email === ""
+  ) {
+    return next(errorHandler(400, "All fileds are required"));
   }
-
   try {
     // Check if the user exists
     const validUser = await User.findOne({ email });
@@ -142,7 +139,7 @@ export const signin = async (req, res, next) => {
     const token = jwt.sign(
       { id: validUser._id, isAdmin: validUser.isAdmin },
       process.env.JWT_SECRET,
-      { expiresIn: '1h' } // Optional: Set token expiry time
+      { expiresIn: '24h' } // Optional: Set token expiry time
     );
 
     const { password: pass, ...rest } = validUser._doc;
@@ -154,12 +151,7 @@ export const signin = async (req, res, next) => {
         httpOnly: true,
         
       })
-      .json({
-        status: 200,
-        message: 'Successfully signed in',
-        user: rest,
-        token,
-      });
+      .json(rest);
   } catch (error) {
     next(error);
   }

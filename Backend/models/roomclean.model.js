@@ -6,11 +6,10 @@ const roomCleanSchema = new Schema(
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true, 
     },
-    rollnum:{
-        type: String,
-      required: true,
+    rollnum: {  // Ensure this field is named correctly in the schema
+      type: String,
+      required: true, 
     },
     description: {
       type: String,
@@ -30,7 +29,7 @@ const roomCleanSchema = new Schema(
     },
     time: {
       type: String,
-      required: true, 
+      //required: true, 
     },
     status: {
       type: String,
@@ -40,6 +39,7 @@ const roomCleanSchema = new Schema(
   },
   { timestamps: true }
 );
+
 
 // Room Cleaning Model
 const RoomClean = mongoose.model("RoomClean", roomCleanSchema);
