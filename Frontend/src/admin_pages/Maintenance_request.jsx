@@ -65,6 +65,7 @@ const currentAdmin = useSelector((state) => state.admin.currentAdmin);
             <th className="py-2 px-4 border-b hidden lg:table-cell">Registration No</th>
             <th className="py-2 px-4 border-b">Date</th>
             <th className="py-2 px-4 border-b hidden lg:table-cell">Time</th>
+            <th className="py-2 px-4 border-b hidden lg:table-cell">Maintenance Type</th>
             <th className="py-2 px-4 border-b hidden lg:table-cell">Description</th>
             <th className="py-2 px-4 border-b">Status</th>
             <th className="py-2 px-4 border-b">Actions</th>
@@ -73,24 +74,23 @@ const currentAdmin = useSelector((state) => state.admin.currentAdmin);
         <tbody>
           {requests.map((request) => (
             <tr key={request._id} className="lg:rounded-lg">
-              <td className="py-2 px-4 items-center border-b hidden lg:table-cell">{request.block}</td>
-              <td className="py-2 px-4 border-b">{request.room}</td>
-              <td className="py-2 px-4 border-b hidden lg:table-cell">{request.rollnum}</td>
-              <td className="py-2 px-4 border-b">{request.date}</td>
-              <td className="py-2 px-4 border-b hidden lg:table-cell">{request.time}</td>
-              <td className="py-2 px-4 border-b hidden lg:table-cell">{request.description}</td>
-              <td className="py-2 px-4 border-b">{request.status}</td>
-              <td className="py-2 px-4 border-b">
-              {request.status === 'pending' ? (
-          <button
-            onClick={() => handleStatusChange(request._id)}
-            className="bg-blue-500 text-white px-3 py-1 rounded"
-          >
-            Mark as Done
-          </button>
-        ) : (
-          <span>✅</span>
-        )}
+              <td className="py-2 px-4 text-center items-center border-b hidden lg:table-cell">{request.block}</td>
+              <td className="py-2 px-4 text-center border-b">{request.room}</td>
+              <td className="py-2 px-4 text-center border-b hidden lg:table-cell">{request.rollnum}</td>
+              <td className="py-2 px-4 text-center border-b">{request.date}</td>
+              <td className="py-2 px-4 text-center border-b hidden lg:table-cell">{request.time}</td>
+              <td className="py-2 px-4 text-center border-b hidden lg:table-cell">{request.maintenanceType}</td>
+              <td className="py-2 px-4 text-center border-b hidden lg:table-cell">{request.description}</td>
+              <td className="py-2 px-4 text-center border-b">{request.status}</td>
+              <td className="py-2 px-4 text-center border-b">
+                {request.status === 'pending' && (
+                  <button
+                    onClick={() => handleStatusChange(request._id)}
+                    className="bg-blue-500 text-white px-3 py-1 rounded"
+                  >
+                    Mark as Done
+                  </button>
+                )}
               </td>
             </tr>
           ))}

@@ -46,7 +46,7 @@ const AdminHeader = () => {
           {dropdownOpen && (
             <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-50">
               <Link 
-                to="/profile" 
+                to="/admin/profile" 
                 className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
                 onClick={() => setDropdownOpen(false)}
               >

@@ -282,8 +282,8 @@ const Signup = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-gray-100 p-4">
-      <img src={logoImage} alt="Logo" className="w-24 lg:w-44 h-auto mb-8" />
+    <div className="flex flex-col items-center justify-center h-screen bg-gray-100 p-5">
+      <img src={logoImage} alt="Logo" className="w-24 lg:w-44 h-auto m-8" />
       <div className="w-full max-w-md">
         <form
           onSubmit={otpSent ? handleVerifyOtp : handleSignup}
