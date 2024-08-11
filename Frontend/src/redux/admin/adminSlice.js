@@ -19,7 +19,7 @@ const adminSlice = createSlice({
     },
     signInSuccess : (state,action)=>{
       state.loading = false,
-      state.currentUser = action.payload,
+      state.currentAdmin = action.payload,
       state.error = null
     },
     signInFailure : (state,action)=>{
@@ -31,7 +31,7 @@ const adminSlice = createSlice({
       state.error = null
     },
     updateSuccess :(state,action)=>{
-      state.currentUser = action.payload
+      state.currentAdmin = action.payload
       state.loading = false,
       state.error = null
     },
@@ -41,7 +41,7 @@ const adminSlice = createSlice({
     },
    
     signOutSuccess : (state)=>{
-      state.currentUser = null,
+      state.currentAdmin = null,
       state.loading = false,
       state.error = null
     }

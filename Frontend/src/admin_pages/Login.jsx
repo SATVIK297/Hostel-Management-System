@@ -31,11 +31,12 @@ const Admin_login = ({onLogin}) => {
       // If login is successful
       if (response.status === 200) {
         const userId = response.data._id;
-        if(onLogin) onLogin();
+        // if(onLogin) onLogin();
 
-        // Optionally store the token in localStorage or cookies
-        localStorage.setItem('token', response.data.token);
-        localStorage.setItem('userId', userId);
+        // // Optionally store the token in localStorage or cookies
+        // localStorage.setItem('token', response.data.token);
+        // localStorage.setItem('userId', userId);
+        console.log(response.data)
 
         dispatch(signInSuccess(response.data));
 
