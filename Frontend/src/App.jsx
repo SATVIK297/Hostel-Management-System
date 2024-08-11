@@ -8,7 +8,10 @@ import Profile from './pages/Profile';
 import Register from './pages/register';
 import Maintenance_main from './pages/M_main';
 
+import { useSelector } from 'react-redux';
+
 function App() {
+  const currentUser = useSelector((state)=>state.user.currentUser)
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   const handleLogin = () => {
@@ -17,16 +20,16 @@ function App() {
 
   return (
     <Router>
-      {isLoggedIn && <Header />}
+      {currentUser && <Header />}
       <Routes>
-        {!isLoggedIn ? (
+        {!currentUser ? (
           <>
               <Route path="/register" element={<Register/>} />
               <Route path="/" element={<Login onLogin={handleLogin} />} />
           </>
         ) : (
           <>
-            <Route path="/" element={<Dashboard />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/roomcleaning" element={<Roomclean_main />} />
             <Route path="/maintenance" element={<Maintenance_main/>} />
             <Route path="/profile" element={<Profile />} />

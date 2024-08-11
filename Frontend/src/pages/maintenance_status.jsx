@@ -1,13 +1,15 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const Maintenance_status = () => {
+  const currentuser = useSelector((state)=>state.user.currentUser)
   const [requests, setRequests] = useState([]);
   const [error, setError] = useState('');
 
   useEffect(() => {
     const fetchRequests = async () => {
-      const userId = localStorage.getItem('userId'); // Fetch the user ID from local storage
+      const userId = currentuser._id; // Fetch the user ID from local storage
 
       if (!userId) {
         setError('User ID is not available. Please log in.');
