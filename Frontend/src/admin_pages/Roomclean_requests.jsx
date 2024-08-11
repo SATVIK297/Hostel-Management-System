@@ -37,7 +37,7 @@ const currentAdmin = useSelector((state) => state.admin.currentAdmin);
   }, []);
 
   return (
-    <div className="container min-h-screen bg-blue-200 p-4">
+    <div className=" container min-h-screen bg-blue-200 p-4">
       <h1 className="text-2xl font-bold mb-4">Room Cleaning Requests</h1>
       <table className="min-w-full bg-white border border-gray-300 rounded-2xl">
         <thead className="bg-blue-500 rounded-3xl">
@@ -54,11 +54,11 @@ const currentAdmin = useSelector((state) => state.admin.currentAdmin);
         </thead>
         <tbody>
           {requests.map((request) => (
-            <tr key={request._id} className="lg:rounded-lg">
+            <tr key={request._id} className="lg:rounded-lg ">
               <td className="py-2 px-4 items-center border-b hidden lg:table-cell">{request.block}</td>
               <td className="py-2 px-4 border-b">{request.room}</td>
               <td className="py-2 px-4 border-b hidden lg:table-cell">{request.rollnum}</td>
-              <td className="py-2 px-4 border-b">{request.date}</td>
+              <td className="py-2 px-4 border-b">{new Date(request.date).toLocaleDateString()}</td>
               <td className="py-2 px-4 border-b hidden lg:table-cell">{request.time}</td>
               <td className="py-2 px-4 border-b hidden lg:table-cell">{request.description}</td>
               <td className="py-2 px-4 border-b">{request.status}</td>
