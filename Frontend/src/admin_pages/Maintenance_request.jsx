@@ -26,7 +26,7 @@ const currentAdmin = useSelector((state) => state.admin.currentAdmin);
     // Fetch room cleaning requests from the backend
     const fetchRequests = async () => {
       try {
-        const response = await axios.get(`http://localhost:5000/api/v1/admin/roomclean/requests/${currentAdmin._id}`);
+        const response = await axios.get(`http://localhost:5000/api/v1/admin/maintenance/requests/${currentAdmin._id}`);
         setRequests(response.data);
       } catch (error) {
         console.error('Failed to fetch room cleaning requests:', error);
