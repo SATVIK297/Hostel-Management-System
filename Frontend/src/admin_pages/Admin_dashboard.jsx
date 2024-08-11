@@ -5,6 +5,7 @@ import healthcare from '../assets/healthcare.jpeg';
 import profile from '../assets/room_cleaning.jpg';
 import { Link } from 'react-router-dom';
 
+
 const Admin_dashboard = () => {
   return (
     <div className="min-h-screen bg-purple-400 p-4 md-8">

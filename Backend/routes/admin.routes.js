@@ -7,6 +7,6 @@ const router = express.Router();
 router.post('/login', adminLogin);
 router.post('/logout', verifyAdminToken, adminLogout);
 router.post('/register', registerAdmin);
-router.get('/roomclean/requests',verifyAdminToken, viewRequests);
+router.get('/roomclean/requests/:id', viewRequests);
 
 export default router;

@@ -59,7 +59,7 @@ export const adminLogin = async (req, res, next) => {
         httpOnly: true,
       })
       .status(200)
-      .json({ message: 'Admin logged in successfully' });
+      .json(admin);
   } catch (err) {
     next(err);
   }
@@ -75,21 +75,20 @@ export const adminLogout = (req, res, next) => {
 
 export const viewRequests = async (req, res, next) => {
   try {
-    const adminId = req.admin.id; // Get admin ID from the verified token
-    console.log('Admin ID:', adminId); // Debugging line
-    const admin = await Admin.findById(adminId); // Find admin by ID
+    const Id = req.params.id;
+    console.log(Id)
+    const admin = await Admin.findById(Id);
 
     if (!admin) {
-      console.log('Admin not found:', adminId); // Debugging line
       return res.status(404).json({ message: 'Admin not found' });
     }
 
-    // Fetch room cleaning requests for the block assigned to the admin
-    const requests = await RoomClean.find({ block: admin.block })
-      .sort({ createdAt: -1 }); // Optionally sort by date
+    const requests = await RoomClean.find({ block: admin.block }).sort({ createdAt: -1 });
 
     res.status(200).json(requests);
   } catch (error) {
-    next(error);
+    console.error('Error fetching requests:', error);  // Log the full error
+    res.status(500).json({ message: 'Internal Server Error' });  // Send only a simple message
   }
 };
+

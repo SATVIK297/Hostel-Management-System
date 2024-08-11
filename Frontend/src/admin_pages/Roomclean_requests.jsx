@@ -1,5 +1,6 @@
 import React, { useState ,useEffect} from 'react';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 
 const Roomcleaning_requests = () => {
@@ -47,7 +48,14 @@ const Roomcleaning_requests = () => {
 //     },
 //   ]);
 
+const currentAdmin = useSelector((state) => state.admin.currentAdmin);
+  console.log(currentAdmin);
+
   const handleStatusChange = (id) => {
+
+
+    const [error, setError] = useState('');
+  
     setRequests((prevRequests) =>
       prevRequests.map((request) =>
         request._id === id ? { ...request, status: 'done' } : request
@@ -60,7 +68,7 @@ const Roomcleaning_requests = () => {
     // Fetch room cleaning requests from the backend
     const fetchRequests = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/v1/admin/roomclean/requests');
+        const response = await axios.get(`http://localhost:5000/api/v1/admin/roomclean/requests/${currentAdmin._id}`);
         setRequests(response.data);
       } catch (error) {
         console.error('Failed to fetch room cleaning requests:', error);
@@ -90,8 +98,8 @@ const Roomcleaning_requests = () => {
           {requests.map((request) => (
             <tr key={request._id} className="lg:rounded-lg">
               <td className="py-2 px-4 items-center border-b hidden lg:table-cell">{request.block}</td>
-              <td className="py-2 px-4 border-b">{request.roomNo}</td>
-              <td className="py-2 px-4 border-b hidden lg:table-cell">{request.rollNo}</td>
+              <td className="py-2 px-4 border-b">{request.room}</td>
+              <td className="py-2 px-4 border-b hidden lg:table-cell">{request.rollnum}</td>
               <td className="py-2 px-4 border-b">{request.date}</td>
               <td className="py-2 px-4 border-b hidden lg:table-cell">{request.time}</td>
               <td className="py-2 px-4 border-b hidden lg:table-cell">{request.description}</td>
