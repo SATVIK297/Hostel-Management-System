@@ -59,7 +59,7 @@ const Admin_login = ({onLogin}) => {
         <img src={logoImage} alt="Logo" className="w-24 lg:w-44 h-auto mb-8" />
         <div className="w-full max-w-md">
           <form onSubmit={handleSubmit} className="bg-blue-100 shadow-lg rounded-2xl px-8 pt-6 pb-8 mb-4">
-            <h2 className="text-2xl font-bold mb-4 text-center">Login</h2>
+            <h2 className="text-2xl font-bold mb-4 text-center">Admin Login</h2>
             {error && <p className="text-red-500 mb-4">{error}</p>}
             <div className="mb-4">
               <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="username">

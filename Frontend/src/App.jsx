@@ -16,6 +16,7 @@ import StudentProtectedRoute from './components/studentprotected_route';
 import AdminProtectedRoute from './components/adminprotected_route';
 import AdminHeader from './components/AdminHeader';
 import Maintenance_requests from './admin_pages/Maintenance_request';
+import Admin_Profile from './admin_pages/Admin_profile';
 
 
 function App() {
@@ -92,6 +93,14 @@ function App() {
               element={
                 <AdminProtectedRoute>
                   <Maintenance_requests />
+                </AdminProtectedRoute>
+              }
+            />
+             <Route
+              path="/admin/profile"
+              element={
+                <AdminProtectedRoute>
+                  <Admin_Profile />
                 </AdminProtectedRoute>
               }
             />
