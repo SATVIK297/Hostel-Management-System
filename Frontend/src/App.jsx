@@ -17,6 +17,7 @@ import AdminProtectedRoute from './components/adminprotected_route';
 import AdminHeader from './components/AdminHeader';
 import Maintenance_requests from './admin_pages/Maintenance_request';
 import Admin_Profile from './admin_pages/Admin_profile';
+import Footer from './components/Footer';
 
 
 function App() {
@@ -107,6 +108,13 @@ function App() {
           </>
         )}
       </Routes>
+
+      {currentUser &&    <Footer/>
+      }
+      {currentAdmin &&     <Footer/>
+      }
+
+
     </Router>
   );
 }

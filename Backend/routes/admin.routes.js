@@ -1,5 +1,5 @@
 import express from 'express';
-import { adminLogin, adminLogout,registerAdmin , viewRequests,changeStatus, viewmaintenanceRequests } from '../controllers/admin.controller.js';
+import { adminLogin, adminLogout,registerAdmin , viewRequests,changeRoomStatus, viewmaintenanceRequests ,changeMaintenanceStatus} from '../controllers/admin.controller.js';
 import { verifyAdminToken } from '../utils/verifyAdmin.js';
 
 const router = express.Router();
@@ -10,6 +10,7 @@ router.post('/register', registerAdmin);
 router.get('/roomclean/requests/:id', viewRequests);
 router.get('/maintenance/requests/:id', viewmaintenanceRequests);
 
-router.put('/roomclean/requests/:id/status', changeStatus);
+router.put('/roomclean/requests/:id/status', changeRoomStatus);
+router.put('/maintenance/requests/:id/status', changeMaintenanceStatus);
 
 export default router;
