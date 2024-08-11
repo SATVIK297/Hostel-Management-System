@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import  { useState } from 'react';
 import Avatar from 'react-avatar';
 import { useSelector,useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { deleteUserFailure, deleteUserStart, deleteUserSuccess, signOutSuccess } from '../redux/user/userSlice';
+import {  signOutSuccess } from '../redux/user/userSlice';
 
 const Profile = () => {
   const dispatch=useDispatch();

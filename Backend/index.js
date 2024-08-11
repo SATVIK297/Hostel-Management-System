@@ -5,6 +5,7 @@ import cookieParser from 'cookie-parser';
 import authRoutes from './routes/auth.route.js'
 import serviceRoutes from './routes/service.route.js'
 import userRoutes from './routes/user.routes.js'
+import adminRoutes from './routes/admin.routes.js'
 import cors from 'cors';
 import bodyParser from 'body-parser';
 
@@ -36,6 +37,7 @@ app.use(cookieParser())
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/service", serviceRoutes);
 app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/admin", adminRoutes);
 
 
 
