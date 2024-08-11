@@ -5,21 +5,39 @@ import { useSelector } from 'react-redux';
 
 const Maintenance_requests = () => {
  
+  const [error, setError] = useState('');
+  const [success, setSuccess] = useState(false); // State to manage success message
 
 const currentAdmin = useSelector((state) => state.admin.currentAdmin);
   console.log(currentAdmin);
 
-  const handleStatusChange = (id) => {
+  const handleStatusChange = async (id) => {
+    try {
+      // Send a PUT request to update the status of the specific request
+      await axios.put(`http://localhost:5000/api/v1/admin/maintenance/requests/${id}/status`, {
+        status: 'completed',
+      });
 
+      // Update the UI to reflect the status change
+      setRequests((prevRequests) =>
+        prevRequests.map((request) =>
+          request._id === id ? { ...request, status: 'completed' } : request
+        )
+      );
 
-    const [error, setError] = useState('');
-  
-    setRequests((prevRequests) =>
-      prevRequests.map((request) =>
-        request._id === id ? { ...request, status: 'done' } : request
-      )
-    );
+      // Show success message
+      setSuccess(true);
+      
+      // Remove success message after 3 seconds
+      setTimeout(() => setSuccess(false), 3000);
+
+    } catch (error) {
+      console.error('Failed to update request status:', error);
+      setError('Failed to update request status');
+    }
   };
+
+  
   const [requests, setRequests] = useState([]);
 
   useEffect(() => {
@@ -63,14 +81,16 @@ const currentAdmin = useSelector((state) => state.admin.currentAdmin);
               <td className="py-2 px-4 border-b hidden lg:table-cell">{request.description}</td>
               <td className="py-2 px-4 border-b">{request.status}</td>
               <td className="py-2 px-4 border-b">
-                {request.status === 'pending' && (
-                  <button
-                    onClick={() => handleStatusChange(request._id)}
-                    className="bg-blue-500 text-white px-3 py-1 rounded"
-                  >
-                    Mark as Done
-                  </button>
-                )}
+              {request.status === 'pending' ? (
+          <button
+            onClick={() => handleStatusChange(request._id)}
+            className="bg-blue-500 text-white px-3 py-1 rounded"
+          >
+            Mark as Done
+          </button>
+        ) : (
+          <span>✅</span>
+        )}
               </td>
             </tr>
           ))}

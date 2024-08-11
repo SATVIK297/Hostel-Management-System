@@ -16,6 +16,7 @@ import StudentProtectedRoute from './components/studentprotected_route';
 import AdminProtectedRoute from './components/adminprotected_route';
 import AdminHeader from './components/AdminHeader';
 import Maintenance_requests from './admin_pages/Maintenance_request';
+import Footer from './components/Footer';
 
 
 function App() {
@@ -98,6 +99,13 @@ function App() {
           </>
         )}
       </Routes>
+
+      {currentUser &&    <Footer/>
+      }
+      {currentAdmin &&     <Footer/>
+      }
+
+
     </Router>
   );
 }
