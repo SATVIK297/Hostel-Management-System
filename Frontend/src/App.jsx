@@ -9,6 +9,9 @@ import Register from './pages/register';
 import Maintenance_main from './pages/M_main';
 
 import { useSelector } from 'react-redux';
+import Admin_login from './admin_pages/Login';
+import Admin_dashboard from './admin_pages/Admin_dashboard';
+import Roomcleaning_requests from './admin_pages/Roomclean_requests';
 
 function App() {
   const currentUser = useSelector((state)=>state.user.currentUser)
@@ -26,6 +29,11 @@ function App() {
           <>
               <Route path="/register" element={<Register/>} />
               <Route path="/" element={<Login onLogin={handleLogin} />} />
+              <Route path="/admin" element={<Admin_login/>} />
+              <Route path="/admin/dashboard" element={<Admin_dashboard/>} />
+              <Route path="/admin/roomclean" element={<Roomcleaning_requests/>} />
+
+
           </>
         ) : (
           <>

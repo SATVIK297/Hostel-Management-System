@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
-import { signInStart, signInSuccess, signInFailure } from '../redux/user/userSlice'; // Adjust the import path accordingly
-import loginImage from '../assets/hostal.png'; // Adjust the path if needed
+import { signInStart, signInSuccess, signInFailure } from '../redux/admin/adminSlice'; 
+import hostal_admin from '../assets/hostal_admin.png'; // Adjust the path if needed
 import logoImage from '../assets/VIT LOGO.png'; // Adjust the path if needed
 import { Link } from 'react-router-dom';
 
-const Login = ({onLogin}) => {
+const Admin_login = ({onLogin}) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -16,6 +16,8 @@ const Login = ({onLogin}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    navigate('/admin/dashboard');
+
 
     dispatch(signInStart());
 
@@ -50,7 +52,7 @@ const Login = ({onLogin}) => {
   return (
     <div className="flex flex-col lg:flex-row h-screen">
       <div className="hidden lg:flex flex-1 items-center justify-center">
-        <img src={loginImage} alt="Login" className="w-5/6 h-auto" />
+        <img src={hostal_admin} alt="Login" className="w-5/6 h-auto" />
       </div>
       <div className="flex flex-1 flex-col items-center justify-center p-4">
         <img src={logoImage} alt="Logo" className="w-24 lg:w-44 h-auto mb-8" />
@@ -92,9 +94,7 @@ const Login = ({onLogin}) => {
                 Login
               </button>
             </div>
-            <div className="text-center mt-4">
-              <p className="text-gray-700">Not registered? <Link to="/register" className="text-blue-500 hover:text-blue-700">Register here</Link></p>
-            </div>
+            
           </form>
         </div>
       </div>
@@ -102,4 +102,4 @@ const Login = ({onLogin}) => {
   );
 };
 
-export default Login;
+export default Admin_login;
