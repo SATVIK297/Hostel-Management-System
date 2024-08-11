@@ -1,49 +1,51 @@
-import React, { useState } from 'react';
+import React, { useState ,useEffect} from 'react';
+import axios from 'axios';
+
 
 const Roomcleaning_requests = () => {
   // Dummy data for room cleaning requests
-  const [requests, setRequests] = useState([
-    {
-      _id: '1',
-      block: 'A',
-      roomNo: '101',
-      rollNo: '21BCE0001',
-      date: '2024-08-10',
-      time: '10:00 AM',
-      status: 'pending',
-      description: 'Clean the floor and change bed sheets.',
-    },
-    {
-      _id: '2',
-      block: 'B',
-      roomNo: '202',
-      rollNo: '21BCE0002',
-      date: '2024-08-11',
-      time: '11:30 AM',
-      status: 'done',
-      description: 'Dust the room and clean the windows.',
-    },
-    {
-      _id: '3',
-      block: 'C',
-      roomNo: '303',
-      rollNo: '21BCE0003',
-      date: '2024-08-12',
-      time: '01:00 PM',
-      status: 'pending',
-      description: 'Clean the bathroom and replace towels.',
-    },
-    {
-      _id: '4',
-      block: 'D',
-      roomNo: '404',
-      rollNo: '21BCE0004',
-      date: '2024-08-13',
-      time: '03:30 PM',
-      status: 'pending',
-      description: 'Mop the floor and clean the furniture.',
-    },
-  ]);
+//   const [requests, setRequests] = useState([
+//     {
+//       _id: '1',
+//       block: 'A',
+//       roomNo: '101',
+//       rollNo: '21BCE0001',
+//       date: '2024-08-10',
+//       time: '10:00 AM',
+//       status: 'pending',
+//       description: 'Clean the floor and change bed sheets.',
+//     },
+//     {
+//       _id: '2',
+//       block: 'B',
+//       roomNo: '202',
+//       rollNo: '21BCE0002',
+//       date: '2024-08-11',
+//       time: '11:30 AM',
+//       status: 'done',
+//       description: 'Dust the room and clean the windows.',
+//     },
+//     {
+//       _id: '3',
+//       block: 'C',
+//       roomNo: '303',
+//       rollNo: '21BCE0003',
+//       date: '2024-08-12',
+//       time: '01:00 PM',
+//       status: 'pending',
+//       description: 'Clean the bathroom and replace towels.',
+//     },
+//     {
+//       _id: '4',
+//       block: 'D',
+//       roomNo: '404',
+//       rollNo: '21BCE0004',
+//       date: '2024-08-13',
+//       time: '03:30 PM',
+//       status: 'pending',
+//       description: 'Mop the floor and clean the furniture.',
+//     },
+//   ]);
 
   const handleStatusChange = (id) => {
     setRequests((prevRequests) =>
@@ -52,6 +54,21 @@ const Roomcleaning_requests = () => {
       )
     );
   };
+  const [requests, setRequests] = useState([]);
+
+  useEffect(() => {
+    // Fetch room cleaning requests from the backend
+    const fetchRequests = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/v1/admin/roomclean/requests');
+        setRequests(response.data);
+      } catch (error) {
+        console.error('Failed to fetch room cleaning requests:', error);
+      }
+    };
+
+    fetchRequests();
+  }, []);
 
   return (
     <div className="container min-h-screen bg-blue-200 p-4">

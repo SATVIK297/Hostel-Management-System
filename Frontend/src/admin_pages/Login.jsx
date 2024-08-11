@@ -16,15 +16,15 @@ const Admin_login = ({onLogin}) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    navigate('/admin/dashboard');
+    // navigate('/admin/dashboard');
 
 
     dispatch(signInStart());
 
     try {
       // Send a POST request to the login endpoint
-      const response = await axios.post('http://localhost:5000/api/v1/auth/signin', {
-        email: username, // assuming username is used as email
+      const response = await axios.post('http://localhost:5000/api/v1/admin/login', {
+        username: username, // assuming username is used as email
         password,
       });
 
@@ -40,7 +40,7 @@ const Admin_login = ({onLogin}) => {
         dispatch(signInSuccess(response.data));
 
         // Redirect to the home page or dashboard
-        navigate('/');
+        navigate('/admin/dashboard');
       }
     } catch (err) {
       // Handle error
