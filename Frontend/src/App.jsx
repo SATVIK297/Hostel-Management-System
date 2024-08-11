@@ -18,6 +18,7 @@ import AdminHeader from './components/AdminHeader';
 import Maintenance_requests from './admin_pages/Maintenance_request';
 import Admin_Profile from './admin_pages/Admin_profile';
 import Footer from './components/Footer';
+import HealthIssue from './pages/HealthIssue';
 
 
 function App() {
@@ -52,6 +53,14 @@ function App() {
               element={
                 <StudentProtectedRoute>
                   <Roomclean_main />
+                </StudentProtectedRoute>
+              }
+            />
+            <Route
+              path="/healthIssue"
+              element={
+                <StudentProtectedRoute>
+                  <HealthIssue/>
                 </StudentProtectedRoute>
               }
             />
