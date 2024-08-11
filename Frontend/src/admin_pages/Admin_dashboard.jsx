@@ -13,7 +13,7 @@ const Admin_dashboard = () => {
         
         <h1 className="text-l mb-8 text-center text-white">Select your Services</h1>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          <Link to="/maintenance" className="bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105">
+          <Link to="/admin/maintenance" className="bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105">
             <img src={maintenance} alt="Maintenance" className="w-full h-48 object-cover" />
             <div className="p-6">
               <h2 className="text-2xl font-bold mb-2">Maintenance</h2>
