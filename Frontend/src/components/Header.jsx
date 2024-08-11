@@ -22,7 +22,6 @@ const Header = () => {
       if (!res.ok) {
         console.log(data.message);
       } else {
-        console.log(data);
         dispatch(signOutSuccess()); //it makes the current user null
       }
     } catch (error) {
@@ -38,7 +37,7 @@ const Header = () => {
   return (
     <header className="bg-gray-800 p-4">
       <div className="container mx-auto flex justify-between items-center">
-        <Link to="/" className="text-white text-xl font-bold ml-5">Hostel Management System</Link>
+        <Link to="/dashboard" className="text-white text-xl font-bold ml-5">Hostel Management System</Link>
 
         <div className="relative">
           <button onClick={toggleDropdown} className="focus:outline-none">
