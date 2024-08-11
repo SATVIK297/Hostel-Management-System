@@ -3,6 +3,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 import RoomClean from '../models/roomclean.model.js';
+import Maintenance from '../models/maintenance.model.js';
 
 
 export const registerAdmin = async (req, res, next) => {
@@ -94,6 +95,25 @@ export const viewRequests = async (req, res, next) => {
 };
 
 
+export const viewmaintenanceRequests = async (req, res, next) => {
+  try {
+    const Id = req.params.id;
+    console.log(Id)
+    const admin = await Admin.findById(Id);
+
+    if (!admin) {
+      return res.status(404).json({ message: 'Admin not found' });
+    }
+
+    const requests = await Maintenance.find({ block: admin.block }).sort({ createdAt: -1 });
+
+    res.status(200).json(requests);
+  } catch (error) {
+    console.error('Error fetching requests:', error);  // Log the full error
+    res.status(500).json({ message: 'Internal Server Error' });  // Send only a simple message
+  }
+};
+
 
 export const changeStatus = async (req, res, next) => {
   try {
@@ -114,20 +134,4 @@ export const changeStatus = async (req, res, next) => {
 };
 
 
-export const adminSignout = async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const { status } = req.body;
 
-    const updatedRequest = await RoomClean.findByIdAndUpdate(id, { status }, { new: true });
-
-    if (!updatedRequest) {
-      return res.status(404).json({ message: 'Request not found' });
-    }
-
-    res.json(updatedRequest);
-  } catch (error) {
-    console.error('Error updating request status:', error);
-    res.status(500).json({ message: 'Server error' });
-  }
-};
