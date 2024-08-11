@@ -139,7 +139,8 @@ export const changeRoomStatus = async (req, res, next) => {
 export const changeMaintenanceStatus = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const { status } = req.body;
+    const { status } = req.body;  
+    
 
     const updatedRequest = await Maintenance.findByIdAndUpdate(id, { status }, { new: true });
 
