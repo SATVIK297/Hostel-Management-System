@@ -73,6 +73,8 @@ export const adminLogout = (req, res, next) => {
   }
 };
 
+
+
 export const viewRequests = async (req, res, next) => {
   try {
     const adminId = req.admin.id; // Get admin ID from the verified token
