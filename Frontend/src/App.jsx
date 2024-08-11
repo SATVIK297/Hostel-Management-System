@@ -12,38 +12,91 @@ import { useSelector } from 'react-redux';
 import Admin_login from './admin_pages/Login';
 import Admin_dashboard from './admin_pages/Admin_dashboard';
 import Roomcleaning_requests from './admin_pages/Roomclean_requests';
+import StudentProtectedRoute from './components/studentprotected_route';
+import AdminProtectedRoute from './components/adminprotected_route';
+import AdminHeader from './components/AdminHeader';
+import Maintenance_requests from './admin_pages/Maintenance_request';
+
 
 function App() {
-  const currentUser = useSelector((state)=>state.user.currentUser)
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-
-  const handleLogin = () => {
-    setIsLoggedIn(true);
-  };
+  const currentUser = useSelector((state) => state.user.currentUser);
+  const currentAdmin = useSelector((state) => state.admin.currentAdmin);
 
   return (
     <Router>
       {currentUser && <Header />}
+      {currentAdmin && <AdminHeader />}
+
       <Routes>
-        {!currentUser ? (
+        {!currentUser && !currentAdmin ? (
           <>
-              <Route path="/register" element={<Register/>} />
-              <Route path="/" element={<Login onLogin={handleLogin} />} />
-              <Route path="/admin" element={<Admin_login/>} />
-              <Route path="/admin/dashboard" element={<Admin_dashboard/>} />
-              <Route path="/admin/roomclean" element={<Roomcleaning_requests/>} />
-
-
+            <Route path="/register" element={<Register />} />
+            <Route path="/" element={<Login />} />
+            <Route path="/admin" element={<Admin_login />} />
           </>
         ) : (
           <>
-            <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/roomcleaning" element={<Roomclean_main />} />
-            <Route path="/maintenance" element={<Maintenance_main/>} />
-            <Route path="/profile" element={<Profile />} />
+            {/* Student Protected Routes */}
+            <Route
+              path="/dashboard"
+              element={
+                <StudentProtectedRoute>
+                  <Dashboard />
+                </StudentProtectedRoute>
+              }
+            />
+            <Route
+              path="/roomcleaning"
+              element={
+                <StudentProtectedRoute>
+                  <Roomclean_main />
+                </StudentProtectedRoute>
+              }
+            />
+            <Route
+              path="/maintenance"
+              element={
+                <StudentProtectedRoute>
+                  <Maintenance_main />
+                </StudentProtectedRoute>
+              }
+            />
+            <Route
+              path="/profile"
+              element={
+                <StudentProtectedRoute>
+                  <Profile />
+                </StudentProtectedRoute>
+              }
+            />
+
+            {/* Admin Protected Routes */}
+            <Route
+              path="/admin/dashboard"
+              element={
+                <AdminProtectedRoute>
+                  <Admin_dashboard />
+                </AdminProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/roomclean"
+              element={
+                <AdminProtectedRoute>
+                  <Roomcleaning_requests />
+                </AdminProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/maintenance"
+              element={
+                <AdminProtectedRoute>
+                  <Maintenance_requests />
+                </AdminProtectedRoute>
+              }
+            />
           </>
         )}
-
       </Routes>
     </Router>
   );

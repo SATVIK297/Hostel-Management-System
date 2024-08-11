@@ -67,7 +67,7 @@ export const adminLogin = async (req, res, next) => {
 
 export const adminLogout = (req, res, next) => {
   try {
-    res.clearCookie('admin_token').status(200).json('Admin logged out successfully');
+    res.json('Admin logged out successfully');
   } catch (err) {
     next(err);
   }
