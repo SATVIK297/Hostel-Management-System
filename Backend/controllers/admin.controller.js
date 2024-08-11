@@ -93,3 +93,41 @@ export const viewRequests = async (req, res, next) => {
   }
 };
 
+
+
+export const changeStatus = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    const updatedRequest = await RoomClean.findByIdAndUpdate(id, { status }, { new: true });
+
+    if (!updatedRequest) {
+      return res.status(404).json({ message: 'Request not found' });
+    }
+
+    res.json(updatedRequest);
+  } catch (error) {
+    console.error('Error updating request status:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
+
+export const adminSignout = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    const updatedRequest = await RoomClean.findByIdAndUpdate(id, { status }, { new: true });
+
+    if (!updatedRequest) {
+      return res.status(404).json({ message: 'Request not found' });
+    }
+
+    res.json(updatedRequest);
+  } catch (error) {
+    console.error('Error updating request status:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
