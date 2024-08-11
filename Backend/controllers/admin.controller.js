@@ -3,7 +3,6 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 
 import RoomClean from '../models/roomclean.model.js';
-import { verifyAdminToken } from '../utils/verifyAdmin.js';
 
 
 export const registerAdmin = async (req, res, next) => {

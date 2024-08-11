@@ -1,4 +1,3 @@
-import React from 'react';
 import maintenance from '../assets/maintenence.png';
 import cleaning from '../assets/cleaning.png';
 import healthcare from '../assets/healthcare.jpeg';
