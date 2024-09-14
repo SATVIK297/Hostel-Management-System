@@ -19,6 +19,9 @@ import Maintenance_requests from './admin_pages/Maintenance_request';
 import Admin_Profile from './admin_pages/Admin_profile';
 import Footer from './components/Footer';
 import HealthIssue from './pages/HealthIssue';
+import Healthcare_main from './pages/Healthcare_main';
+import NoticeBoard from './pages/NoticeBoard';
+import CreateNotice from './admin_pages/Notice';
 
 
 function App() {
@@ -60,7 +63,7 @@ function App() {
               path="/healthIssue"
               element={
                 <StudentProtectedRoute>
-                  <HealthIssue/>
+                  <Healthcare_main/>
                 </StudentProtectedRoute>
               }
             />
@@ -69,6 +72,14 @@ function App() {
               element={
                 <StudentProtectedRoute>
                   <Maintenance_main />
+                </StudentProtectedRoute>
+              }
+            />
+            <Route
+              path="/noticeboard"
+              element={
+                <StudentProtectedRoute>
+                  <NoticeBoard />
                 </StudentProtectedRoute>
               }
             />
@@ -103,6 +114,14 @@ function App() {
               element={
                 <AdminProtectedRoute>
                   <Maintenance_requests />
+                </AdminProtectedRoute>
+              }
+            />
+            <Route
+              path="/admin/notice"
+              element={
+                <AdminProtectedRoute>
+                  <CreateNotice />
                 </AdminProtectedRoute>
               }
             />

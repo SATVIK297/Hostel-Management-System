@@ -34,13 +34,13 @@ const Admin_dashboard = () => {
               <p className="text-gray-700">Access healthcare services.</p>
             </div>
           </div>
-          <div className="bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105">
+          <Link to="/admin/notice" className="bg-white rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 hover:scale-105">
             <img src={profile} alt="Profile" className="w-full h-48 object-cover" />
             <div className="p-6">
               <h2 className="text-2xl font-bold mb-2">Profile</h2>
               <p className="text-gray-700">Manage your profile and settings.</p>
             </div>
-          </div>
+          </Link>
         </div>
       </div>
     </div>
