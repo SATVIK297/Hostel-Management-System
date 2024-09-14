@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 
 import RoomClean from '../models/roomclean.model.js';
 import Maintenance from '../models/maintenance.model.js';
+import Notice from '../models/noticeboard.model.js';
 
 
 export const registerAdmin = async (req, res, next) => {
@@ -156,4 +157,40 @@ export const changeMaintenanceStatus = async (req, res, next) => {
 };
 
 
+export const madenotice = async (req, res, next) => {
+  try {
+    const { headline, content } = req.body;
+    const { id } = req.params;
+
+    // Check if the admin exists
+    const currentadmin = await Admin.findById(id);
+    if (!currentadmin) {
+      return res.status(404).json({
+        message: "Admin not found",
+      });
+    }
+
+    // Create new notice
+    const newnotice = new Notice({
+      AdminId: id,  // The ID of the current admin
+      headline,
+      content,
+    });
+
+    // Save the notice to the database
+    await newnotice.save();
+
+    return res.status(201).json({
+      message: "Notice created successfully",
+      data: newnotice,
+    });
+
+  } catch (error) {
+    console.error("Error while creating notice:", error);
+    return res.status(500).json({
+      message: "An error occurred while creating the notice",
+      error: error.message,
+    });
+  }
+};
 

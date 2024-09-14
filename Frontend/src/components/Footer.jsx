@@ -8,7 +8,7 @@ const Footer = () => {
         <footer className="bg-gray-800 text-white py-6">
             <div className="container mx-auto text-center">
                 <p className="text-sm mb-4">
-                    &copy; 2024 Developed by <span className="font-bold">Satvik & Pranjay</span>
+                    &copy; 2024 Developed by <span className="font-bold">Pranjay & Satvik</span>
                 </p>
                 <div className="flex justify-center space-x-4 mb-4">
                     <a href="https://facebook.com" className="text-gray-400 hover:text-white">
