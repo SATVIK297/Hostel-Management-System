@@ -252,14 +252,16 @@ const Maintenance_requests = () => {
               <td className="py-2 px-4 text-center border-b hidden lg:table-cell">{request.description}</td>
               <td className="py-2 px-4 text-center border-b">{request.status}</td>
               <td className="py-2 px-4 text-center border-b">
-                {request.status === 'pending' && (
-                  <button
-                    onClick={() => handleStatusChange(request._id)}
-                    className="bg-blue-500 text-white px-3 py-1 rounded"
-                  >
-                    Mark as Done
-                  </button>
-                )}
+              {request.status === 'pending' ? (
+          <button
+            onClick={() => handleStatusChange(request._id)}
+            className="bg-blue-500 text-white px-3 py-1 rounded"
+          >
+            Mark as Done
+          </button>
+        ) : (
+          <span>✅</span>
+        )}
               </td>
             </tr>
           ))}

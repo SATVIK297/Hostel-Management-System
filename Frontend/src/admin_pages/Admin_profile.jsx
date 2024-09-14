@@ -3,7 +3,7 @@ import Avatar from 'react-avatar';
 import { useSelector,useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {  signOutSuccess } from '../redux/user/userSlice';
+import {signOutSuccess} from "../redux/admin/adminSlice"
 
 const Admin_Profile = () => {
   const dispatch=useDispatch();
@@ -25,17 +25,21 @@ const Admin_Profile = () => {
   
   
 
-
-
   const handleSignOut = async () => {
     try {
-      await axios.post('http://localhost:5000/api/v1/admin/signout');
-      dispatch(signOutSuccess());
-
-      navigate('/'); // Redirect to login page after sign out
-    } catch (err) {
-      console.error('Failed to sign out', err);
+      const res = await fetch('http://localhost:5000/api/v1/admin/logout', {
+        method: 'POST',
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signOutSuccess()); //it makes the current user null
+      }
+    } catch (error) {
+      console.log(error.message);
     }
+    navigate('/admin'); // Redirect to login after logout
   };
 
   return (
