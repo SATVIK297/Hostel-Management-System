@@ -28,12 +28,12 @@ const CreateNotice = () => {
         content : content,
       });
 
-      console.log(response);
+      console.log(response); 
       
       setMessage("Notice created successfully!"); // Success message
       setError("");
     } catch (err) {
-      setError("Failed to create notice. Please try again."); // Error message
+      setError("Failed to create notice. Plehase try again."); // Error message
       setMessage("");
       console.error("Error creating notice:", err);
     }
