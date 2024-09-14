@@ -1,6 +1,6 @@
 import User from "../models/user.model.js";
 import bcryptjs from "bcryptjs";
-import nodemailer from 'nodemailer'; // Add this line
+import nodemailer from 'nodemailer'; 
 
 import { errorHandler } from "../utils/error.js";
 import jwt from "jsonwebtoken";
@@ -19,18 +19,15 @@ export const signup = async (req, res, next) => {
     return next(errorHandler(400, "All fields are required"));
   }
 
-  // Check if user already exists
   try {
     const existedUser = await User.findOne({ email });
     if (existedUser) {
       return next(errorHandler(400, "User already exists"));
     }
 
-    // Generate OTP
     const randomOtp = Math.floor(100000 + Math.random() * 900000).toString();
     const hashedPassword = bcryptjs.hashSync(password, 10);
 
-    // Create new user
     const newUser = new User({
       email,
       password: hashedPassword,
